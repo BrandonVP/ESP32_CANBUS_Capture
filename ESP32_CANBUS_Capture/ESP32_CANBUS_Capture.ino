@@ -1,62 +1,42 @@
 /*
- Name:		ESP32_CANBUS_Capture.ino
- Created:	6/28/2021 10:53:47 AM
- Author:	Brandon Van Pelt
+ Name:    ESP32_CANBUS_Capture.ino
+ Created: 6/28/2021 10:53:47 AM
+ Author:  Brandon Van Pelt
 */
 
 // ESP32 CANBus Capture tool with serial controls
-
-// the setup function runs once when you press reset or power the board
-#include <Arduino.h>
-#include <ESP32CAN.h>
-#include <CAN_config.h>
+#include <esp32_can.h>
 
 #define START 48 // 0
 #define PAUSE 49 // 1
 #define STOP  50 // 2
 
 #define BAUD_500KBPS 500000
-#define RX_BUFFER_SIZE 100
 
 // CAN Bus Variables
-CAN_device_t CAN0;         
-CAN_frame_t rx_frame;
+CAN_FRAME message;
 uint32_t messageNum = 0;
-bool stopScan = false;
+bool stopScan = true;
+char string_out[200];
+char temp1[10];
+uint32_t temp = 0;
 
-void setup()
+void readCAN()
 {
-    // Initialize Serial Monitor
-    Serial.begin(BAUD_500KBPS);
-
-    // CAN Bus setup
-    CAN0.speed = CAN_SPEED_500KBPS;
-    CAN0.tx_pin_id = GPIO_NUM_25;
-    CAN0.rx_pin_id = GPIO_NUM_26;
-    CAN0.rx_queue = xQueueCreate(RX_BUFFER_SIZE, sizeof(CAN_frame_t));
-
-    // Init CAN Module
-    ESP32Can.CANInit();
-}
-
-void loop()
-{
-    // Receive next CAN frame from queue
-    if (xQueueReceive(CAN0.rx_queue, &rx_frame, 3 * portTICK_PERIOD_MS) == pdTRUE && stopScan == false)
+    if (CAN0.read(message) && stopScan == false)
     {
-        char string_out[200];
-        char temp1[10];
-        uint32_t temp = millis();
-
+        temp = millis();
         sprintf(string_out, "% -8d  % -9d  %04X   %d   %02X  %02X  %02X  %02X  %02X  %02X  %02X  %02X",
-            messageNum, temp, rx_frame.MsgID, rx_frame.FIR.B.DLC, rx_frame.data.u8[0],
-            rx_frame.data.u8[1], rx_frame.data.u8[2], rx_frame.data.u8[3], rx_frame.data.u8[4],
-            rx_frame.data.u8[5], rx_frame.data.u8[6], rx_frame.data.u8[7]);
+            messageNum, temp, message.id, message.length, message.data.uint8[0], message.data.uint8[1],
+            message.data.uint8[2], message.data.uint8[3], message.data.uint8[4], message.data.uint8[5],
+            message.data.uint8[6], message.data.uint8[7]);
         Serial.println(string_out);
-
         messageNum++;
     }
+}
 
+void checkSerial()
+{
     // User Serial Controls
     if (Serial.available())
     {
@@ -68,8 +48,23 @@ void loop()
         case PAUSE: stopScan = true;
             break;
         case STOP: stopScan = true;
-            messageNum = 0;
+                   messageNum = 0;
             break;
         }
     }
+}
+
+void setup()
+{
+    // Initialize Serial Monitor
+    Serial.begin(BAUD_500KBPS);
+
+    CAN0.begin(BAUD_500KBPS);
+    CAN0.watchFor();
+}
+
+void loop()
+{
+    readCAN();
+    checkSerial();
 }

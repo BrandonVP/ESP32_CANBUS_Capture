@@ -5,12 +5,12 @@ VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESP32_CANBUS_Capture", "ESP32_CANBUS_Capture\ESP32_CANBUS_Capture.vcxproj", "{C5F80730-F44F-4478-BDAE-6634EFC2CA88}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ESP32-Arduino-CAN-master-0.0.1", "ESP32_CANBUS_Capture\Libraries\ESP32-Arduino-CAN-master\0.0.1\ESP32-Arduino-CAN-master\ESP32-Arduino-CAN-master-0.0.1.vcxitems", "{13321CCA-9FBC-42B8-BFB9-B616C7886FCB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "esp32_can-master-0.2.5", "ESP32_CANBUS_Capture\Libraries\esp32_can-master\0.2.5\esp32_can-master\esp32_can-master-0.2.5.vcxitems", "{E56FD047-B55E-484D-96F1-5DA267024B91}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		ESP32_CANBUS_Capture\Libraries\ESP32-Arduino-CAN-master\0.0.1\ESP32-Arduino-CAN-master\ESP32-Arduino-CAN-master-0.0.1.vcxitems*{13321cca-9fbc-42b8-bfb9-b616c7886fcb}*SharedItemsImports = 9
-		ESP32_CANBUS_Capture\Libraries\ESP32-Arduino-CAN-master\0.0.1\ESP32-Arduino-CAN-master\ESP32-Arduino-CAN-master-0.0.1.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		ESP32_CANBUS_Capture\Libraries\esp32_can-master\0.2.5\esp32_can-master\esp32_can-master-0.2.5.vcxitems*{c5f80730-f44f-4478-bdae-6634efc2ca88}*SharedItemsImports = 4
+		ESP32_CANBUS_Capture\Libraries\esp32_can-master\0.2.5\esp32_can-master\esp32_can-master-0.2.5.vcxitems*{e56fd047-b55e-484d-96f1-5da267024b91}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
